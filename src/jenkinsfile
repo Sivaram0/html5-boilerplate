@@ -1,0 +1,24 @@
+/* groovylint-disable SpaceBeforeOpeningBrace */
+/* groovylint-disable-next-line CompileStatic */
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                sh 'make'
+            }
+        }
+        /* groovylint-disable-next-line SpaceBeforeOpeningBrace */
+        stage('Test') {
+            steps {
+                sh 'make check'
+                archiveArtifacts artifacts: 'dist/**/*'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'make publish'
+            }
+        }
+    }
+}
